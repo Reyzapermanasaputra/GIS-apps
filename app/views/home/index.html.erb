@@ -1,0 +1,80 @@
+<div class="container my">
+<div class="row">
+<div class="col-sm-5">
+<form class="form-horizontal" role="form">
+<fieldset>
+
+<!-- Form Name -->
+<legend>Cari Kajian Berdasarkan</legend>
+
+<!-- Text input-->
+<div class="form-group">
+  <label class="col-lg-2 control-label" for="textinput">Nama Ustadz</label>
+  <div class="col-lg-10">
+    <input id="textinput" name="textinput" placeholder="Ust. Abdul Somad" class="form-control" type="text" required="required">
+    <p class="help-block"></p>
+  </div>
+</div>
+
+  <div class="form-group">
+    <label for="textinput" class="col-lg-2 control-label">Waktu</label>
+    <div class="col-lg-10">
+      <input type="email" class="form-control" id="inputEmail1" placeholder="Waktu Kajian" required="required">
+      <p class="help-block"></p>
+    </div>
+  </div>
+  
+<div class="form-group">
+<label for="inputDescription" class="col-lg-2 control-label">Lokasi Kajian</label>
+<div class="col-lg-10">
+<textarea required="required" placeholder="Lokasi Kajian" class="form-control" rows="10" id="description"></textarea>
+</div>
+</div> 
+
+<div class="form-group">
+  <div class="col-lg-offset-2 col-lg-10">
+    <button type="submit" class="btn btn-success bordered">Cari</button>
+    <button type="reset" class="btn btn-danger bordered">Reset</button>
+  </div>
+</div>
+
+</fieldset>
+</form>
+</div> 
+<div class="col-sm-7">
+
+<!-- for maps -->
+<!-- <iframe class="bordered" width="100%" height="400" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.de/maps?f=q&source=s_q&hl=de&geocode=&q=Internetdienstleistungen+%26+EDV-Service+Michael+H%C3%BCckelheim,+Brahmsweg,+Kierspe&aq=0&oq=internet&ie=UTF8&hq=Internetdienstleistungen+%26+EDV-Service+Michael+H%C3%BCckelheim,&hnear=Brahmsweg,+58566+Kierspe&t=m&cid=9714562484631546889&ll=51.140963,7.600565&spn=0.02154,0.051498&z=14&iwloc=A&output=embed"></iframe>  -->   
+<div id="map"></div>
+    	
+      	
+    		<h2>List Kajian</h2>
+    	<% @events.each do |event| %>
+        <strong><%= event.judul_kajian %></strong><br>
+        <div class="row">
+        <div class="col-sm-6">
+    		<address>
+    			
+    			<%= event.hari%><br>
+    			<%= event.tanggal%><br>
+    			<%= event.lokasi%><br>
+
+    		</address>
+        </div>
+        <div class="col-sm-6">
+        
+    			<span class="glyphicon glyphicon-phone-alt"></span>  <%= event.latitude%><br>
+          <span class="glyphicon glyphicon-print"></span>  <%= event.longitude %><br>
+          <span class="glyphicon glyphicon-envelope"></span>  <a href="mailto:info@idl-mihue.de?subject=Homepage-Nachricht">info@idl-mihue.de</a><br>
+        </div>
+    	  </div>
+    	<% end %>
+    	<hr />
+</div>
+</div>
+</div>
+  <script>
+  jQuery(function() {
+    <%= @map.to_js %>
+  })
+</script>

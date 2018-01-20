@@ -1,0 +1,59 @@
+  <%= form_for @event do |f| %>
+    <div class="row">
+      <div class="col-lg-6">
+        <fieldset class="form-group">
+          <%= f.label "Judul Kajian" %>
+          <%= f.text_area :judul_kajian, class: "form-control" %>
+        </fieldset>
+
+      <fieldset class="form-group">
+        <%= f.label :pengisi %>
+        <%= f.text_field :pengisi, class: "form-control" %>
+      </fieldset>
+
+      <fieldset class="form-group">
+        <%= f.label :hari %>
+        <%= f.text_field :hari, class: "form-control" %>
+      </fieldset>
+
+      <fieldset class="form-group">
+        <%= f.label :kota %>
+        <%= f.text_field :kota, class: "form-control" %>
+      </fieldset>
+
+      <fieldset class="form-group">
+        <%= f.label :cp %>
+        <%= f.text_field :cp, class: "form-control" %>
+      </fieldset>
+
+      <fieldset class="form-group">
+        <%= f.label :cp_no_telpon %>
+        <%= f.text_field :cp_no_telpon, class: "form-control" %>
+      </fieldset>
+    </div>
+
+    <div class="col-lg-6">
+      <fieldset class="form-group">
+        <%= f.label :tanggal %>
+        <%= f.text_field :tanggal, class: "form-control" %>
+      </fieldset>
+
+      <fieldset class="form-group">
+        <%= f.label :lokasi %>
+        <%= f.text_area :lokasi, class: "form-control" %>
+        <small class="text-muted">You can also enter IP. Your IP is <%= request.ip %></small>
+      </fieldset>
+
+      <fieldset class="form-group">
+        <%= f.label :latitude %>
+        <%= f.text_field :latitude, class: "form-control" %>
+      </fieldset>
+
+      <fieldset class="form-group">
+        <%= f.label :longitude %>
+        <%= f.text_field :longitude, class: "form-control" %>
+      </fieldset>
+      <%= f.submit 'Tambah!', class: 'btn btn-primary' %>
+      <% end %>
+    </div>
+</div>

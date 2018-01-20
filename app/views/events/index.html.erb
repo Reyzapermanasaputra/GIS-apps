@@ -1,0 +1,56 @@
+<!-- <div class="container">
+	<header><h1 class="display-4">List Kajian</h1></header>
+
+	<div class="card">
+	  <div class="card-block">
+	    <ul>
+	      <%= render @events %>
+	    </ul>
+	  </div>
+	</div>
+</div> -->
+	<div class="container">
+		<div class="row">
+		<%= link_to 'Tambah Kajian', new_event_path, class: 'btn btn-primary btn' %>
+		  <ul class="timeline">
+		<% @events.each_with_index do |event,index| %>
+			<% if index.even? %>
+		    <li>
+		        <div class="timeline-badge">
+		          <a><i class="fa fa-circle" id=""></i></a>
+		        </div>
+		        <div class="timeline-panel">
+		            <div class="timeline-heading">
+		                <h4><%= link_to event.judul_kajian, event_path(event.id)%></h4>
+		            </div>
+		            <div class="timeline-body">
+		                <p>Kajian <%= event.judul_kajian %> yang akan diisi oleh ustadz <%= event.pengisi%> di <%= event.lokasi %> pada hari <%= event.hari%> tanggal <%= event.tanggal %> untuk informasi lebih lanjut hubungi <%= event.cp %> <%= event.cp_no_telpon %></p>
+		            </div>
+		            <div class="timeline-footer">
+		                <p class="text-right"><%= link_to "Edit", edit_event_path(event.id)%></p>
+		            </div>
+		        </div>
+		    </li>
+		    <% else %>
+		    <li class="timeline-inverted">
+		        <div class="timeline-badge">
+		            <a><i class="fa fa-circle invert" id=""></i></a>
+		        </div>
+		        <div class="timeline-panel">
+		            <div class="timeline-heading">
+		                <h4><%= link_to event.judul_kajian, event_path(event.id)%></h4>
+		            </div>
+		            <div class="timeline-body">
+		                <p>Kajian <%= event.judul_kajian %> yang akan diisi oleh ustadz <%= event.pengisi%> di <%= event.lokasi %> pada hari <%= event.hari%> tanggal <%= event.tanggal %> untuk informasi lebih lanjut hubungi <%= event.cp %> <%= event.cp_no_telpon %></p>
+		            </div>
+		            <div class="timeline-footer">
+		                <p class="text-right"><%= link_to "Edit", edit_event_path(event.id)%></p>
+		            </div>
+		        </div>
+		    </li>
+		    <% end %>
+	    <% end %>
+	    <li class="clearfix no-float"></li>
+	</ul>
+		</div>
+	</div>

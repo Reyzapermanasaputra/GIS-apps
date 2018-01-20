@@ -1,0 +1,12 @@
+<div class="container">
+	<header><h1 class="display-4"><%= @event.judul_kajian %></h1></header>
+	<p>Pengisi: <%= @event.pengisi %></p>
+  <p>Hari: <%= @event.hari %></p>
+  <p>Tanggal: <%= @event.tanggal %></p>
+  <p>Tempat: <%= @event.lokasi %></p>
+  <p>CP: <%= @event.cp %></p>
+  <p>No yang dapat dihubungi: <%= @event.cp_no_telpon %></p>
+	<p>Coordinates: <%= @event.latitude %> <%= @event.longitude %></p>
+	<%= image_tag "http://maps.googleapis.com/maps/api/staticmap?center=#{@event.latitude},#{@event.longitude}&markers=#{@event.latitude},#{@event.longitude}&zoom=7&size=640x400&key=AIzaSyA4BHW3txEdqfxzdTlPwaHsYRSZbfeIcd8",
+              class: 'img-fluid img-rounded', alt: "#{@event.judul_kajian} on the map"%>
+</div>
