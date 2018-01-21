@@ -20,6 +20,14 @@ class EventsController < ApplicationController
 
   def show
   	@event = Event.find_by_id(params[:id])
+    @gmap = GMaps.new(div: '#map', lat: @event.latitude, lng: @event.longitude, zoom: 20)    
+    @gmap.addMarker(
+     lat: @event.latitude,
+     lng: @event.longitude,
+     title: 'Marker with InfoWindow',
+     infoWindow: {
+       content: "<p>#{@event.judul_kajian}<br /> #{@event.pengisi}</p>"
+     })
   end
 
   def edit
@@ -38,6 +46,6 @@ class EventsController < ApplicationController
   private
 
   def event_params
-    params.require(:event).permit(:judul_kajian, :pengisi, :hari, :tanggal, :lokasi, :kota, :cp, :cp_no_telpon, :latitude, :longtitude)
+    params.require(:event).permit(:judul_kajian, :pengisi, :hari, :tanggal, :jam_mulai, :jam_selesai, :lokasi, :kota, :cp, :cp_no_telpon, :latitude, :longtitude)
   end
 end

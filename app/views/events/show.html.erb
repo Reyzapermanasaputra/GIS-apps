@@ -7,6 +7,83 @@
   <p>CP: <%= @event.cp %></p>
   <p>No yang dapat dihubungi: <%= @event.cp_no_telpon %></p>
 	<p>Coordinates: <%= @event.latitude %> <%= @event.longitude %></p>
-	<%= image_tag "http://maps.googleapis.com/maps/api/staticmap?center=#{@event.latitude},#{@event.longitude}&markers=#{@event.latitude},#{@event.longitude}&zoom=7&size=640x400&key=AIzaSyA4BHW3txEdqfxzdTlPwaHsYRSZbfeIcd8",
-              class: 'img-fluid img-rounded', alt: "#{@event.judul_kajian} on the map"%>
+  <h1>Rute</h1>
+  <h2>Klik lokasi anda kemudian klik tombol rute.</h2>
+  <div class="row">
+    <div class="span16">
+      <div id="map" class="large"></div>
+    </div>
+    <div class="span5">
+      <div class="row">
+        <a href="#" class="btn" id="get_route">Rute</a>
+        <a href="#" class="btn" id="back">&laquo; Kembali</a>
+        <a href="#" class="btn" id="forward">Lanjut &raquo;</a>
+      </div>
+      <div class="row">
+        <ul id="steps">
+        </ul>
+      </div>
+    </div>
+  </div>
 </div>
+
+<script>
+  jQuery(function() {
+    <%#= @map.to_js %>
+  })
+    var map;
+    var route;
+    $(document).ready(function(){
+      $('#forward').attr('disabled', 'disabled');
+      $('#back').attr('disabled', 'disabled');
+      $('#get_route').click(function(e){
+        e.preventDefault();
+        map.getRoutes({
+          origin: [map.markers[0].getPosition().lat(), map.markers[0].getPosition().lng()],
+          destination: [<%= @event.latitude%>, <%=@event.longitude %>],
+          callback: function(e){
+            route = new GMaps.Route({
+              map: map,
+              route: e[0],
+              strokeColor: '#027ef9',
+              strokeOpacity: 0.5,
+              strokeWeight: 10
+            });
+            $('#forward').removeAttr('disabled');
+            $('#back').removeAttr('disabled');
+          }
+        });
+        $('#forward').click(function(e){
+          e.preventDefault();
+          route.forward();
+
+          if(route.step_count < route.steps_length)
+            $('#steps').append('<li>'+route.steps[route.step_count].instructions+'</li>');
+        });
+        $('#back').click(function(e){
+          e.preventDefault();
+          route.back();
+
+          if(route.step_count >= 0)
+            $('#steps').find('li').last().remove();
+        });
+      });
+      map = new GMaps({
+        el: '#map',
+        lat: <%= @event.latitude %>,
+        lng: <%= @event.longitude %>,
+        zoom: 10,
+        height: '500px',
+        click: function(e){
+          map.addMarker({
+            lat: e.latLng.lat(),
+            lng: e.latLng.lng(),
+            title: 'Marker with InfoWindow',
+            infoWindow: {
+              content: "<p>Lokasi Anda</p>"
+            }
+          });
+        }
+      });
+    });
+</script>

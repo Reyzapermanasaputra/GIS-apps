@@ -1,16 +1,22 @@
 class HomeController < ApplicationController
+  
   before_action :get_all_event
+
   def index
-  	@map = GMaps.new(div: '#map', lat: @events.last.latitude, lng: @events.last.longitude)  	
-  	@events.all.each do |event|
-      @map.addMarker(
-       lat: event.latitude,
-       lng: event.longitude,
-       title: 'Marker with InfoWindow',
-       infoWindow: {
-         content: "<p>#{event.judul_kajian}<br /> #{event.pengisi}</p>"
-       })
-  	end
+  end
+
+  def get_json_event
+    if params[:pengisi].present?
+      render :json => {:venues => Event.where("pengisi LIKE '%#{params[:pengisi]}%'")}
+    elsif params[:hari].present?
+      render :json => {:venues => Event.where("hari LIKE '%#{params[:hari]}%'")}              
+    elsif params[:tanggal].present?
+      render :json => {:venues => Event.where("tanggal LIKE '%#{params[:tanggal]}%'")}              
+    elsif params[:lokasi].present?
+      render :json => {:venues => Event.where("lokasi LIKE '%#{params[:lokasi]}%'")}
+    else
+      render :json => {:venues => Event.all}
+    end
   end
   
   private

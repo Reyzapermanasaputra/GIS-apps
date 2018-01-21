@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180120081846) do
+ActiveRecord::Schema.define(version: 20180120133808) do
 
   create_table "events", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.text "judul_kajian"
@@ -25,6 +25,8 @@ ActiveRecord::Schema.define(version: 20180120081846) do
     t.string "kota"
     t.string "cp"
     t.string "cp_no_telpon"
+    t.string "jam_mulai"
+    t.string "jam_selesai"
   end
 
 end

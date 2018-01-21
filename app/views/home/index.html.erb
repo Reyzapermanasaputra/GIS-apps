@@ -1,17 +1,19 @@
 <div class="container my">
 <div class="row">
-<div class="col-sm-5">
+<div class="col-md-12">
 <form class="form-horizontal" role="form">
 <fieldset>
 
 <!-- Form Name -->
 <legend>Cari Kajian Berdasarkan</legend>
 
+<%= form_tag(home_search_path, :method => "get", id: "search-form") do %>
+
 <!-- Text input-->
 <div class="form-group">
   <label class="col-lg-2 control-label" for="textinput">Nama Ustadz</label>
   <div class="col-lg-10">
-    <input id="textinput" name="textinput" placeholder="Ust. Abdul Somad" class="form-control" type="text" required="required">
+  <%= text_field_tag :pengisi, params[:pengisi], placeholder: "Search Ustadz", class: "form-control"%>
     <p class="help-block"></p>
   </div>
 </div>
@@ -19,7 +21,15 @@
   <div class="form-group">
     <label for="textinput" class="col-lg-2 control-label">Waktu</label>
     <div class="col-lg-10">
-      <input type="email" class="form-control" id="inputEmail1" placeholder="Waktu Kajian" required="required">
+      <%= text_field_tag :hari, params[:hari], placeholder: "Search Hari", class: "form-control"%>
+      <p class="help-block"></p>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="textinput" class="col-lg-2 control-label">Waktu</label>
+    <div class="col-lg-10">
+      <%= text_field_tag :tanggal, params[:tanggal], placeholder: "Search Tanggal", class: "form-control"%>
       <p class="help-block"></p>
     </div>
   </div>
@@ -27,54 +37,102 @@
 <div class="form-group">
 <label for="inputDescription" class="col-lg-2 control-label">Lokasi Kajian</label>
 <div class="col-lg-10">
-<textarea required="required" placeholder="Lokasi Kajian" class="form-control" rows="10" id="description"></textarea>
+<%= text_area_tag :lokasi, params[:lokasi], placeholder: "Search Lokasi", class: "form-control", rows: 5%>
 </div>
 </div> 
 
 <div class="form-group">
   <div class="col-lg-offset-2 col-lg-10">
-    <button type="submit" class="btn btn-success bordered">Cari</button>
+    <div class="text-right">
+    <%= submit_tag "Cari", :class => "btn btn-success bordered" %>
     <button type="reset" class="btn btn-danger bordered">Reset</button>
+    </div>
   </div>
 </div>
+<% end %>
 
 </fieldset>
 </form>
 </div> 
 <div class="col-sm-7">
-
-<!-- for maps -->
-<!-- <iframe class="bordered" width="100%" height="400" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.de/maps?f=q&source=s_q&hl=de&geocode=&q=Internetdienstleistungen+%26+EDV-Service+Michael+H%C3%BCckelheim,+Brahmsweg,+Kierspe&aq=0&oq=internet&ie=UTF8&hq=Internetdienstleistungen+%26+EDV-Service+Michael+H%C3%BCckelheim,&hnear=Brahmsweg,+58566+Kierspe&t=m&cid=9714562484631546889&ll=51.140963,7.600565&spn=0.02154,0.051498&z=14&iwloc=A&output=embed"></iframe>  -->   
+  <div class="span6">
+    <h2>List Pengajian:</h2>
+    <ul id="results">
+    </ul>
+  </div> 
+</div>
 <div id="map"></div>
-    	
-      	
-    		<h2>List Kajian</h2>
-    	<% @events.each do |event| %>
-        <strong><%= event.judul_kajian %></strong><br>
-        <div class="row">
-        <div class="col-sm-6">
-    		<address>
-    			
-    			<%= event.hari%><br>
-    			<%= event.tanggal%><br>
-    			<%= event.lokasi%><br>
-
-    		</address>
-        </div>
-        <div class="col-sm-6">
-        
-    			<span class="glyphicon glyphicon-phone-alt"></span>  <%= event.latitude%><br>
-          <span class="glyphicon glyphicon-print"></span>  <%= event.longitude %><br>
-          <span class="glyphicon glyphicon-envelope"></span>  <a href="mailto:info@idl-mihue.de?subject=Homepage-Nachricht">info@idl-mihue.de</a><br>
-        </div>
-    	  </div>
-    	<% end %>
-    	<hr />
-</div>
-</div>
 </div>
   <script>
-  jQuery(function() {
-    <%= @map.to_js %>
-  })
+  // for map
+  var map;
+
+    function loadResults (data) {
+      var items, markers_data = [];
+      if (data.venues.length > 0) {
+        items = data.venues;
+        for (var i = 0; i < items.length; i++) {
+          var item = items[i];
+          if (item.latitude != undefined && item.longitude != undefined) {
+            var icon = 'https://foursquare.com/img/categories/food/default.png';
+
+            markers_data.push({
+              lat : item.latitude,
+              lng : item.longitude,
+              title : item.judul_kajian,
+              pengisi: item.pengisi,
+              id: item.id,
+              infoWindow: {
+                content: "<p>"+item.judul_kajian+"<br />" +item.pengisi+"</p>"
+              }
+            });
+          }
+        }
+      }
+
+      map.addMarkers(markers_data);
+    }
+
+    function printResults(data) {
+      $('#foursquare-results').text(JSON.stringify(data));
+      //prettyPrint();
+    }
+
+    $(document).on('click', '.pan-to-marker', function(e) {
+      e.preventDefault();
+
+      var position, lat, lng, $index;
+
+      $index = $(this).data('marker-index');
+
+      position = map.markers[$index].getPosition();
+
+      lat = position.lat();
+      lng = position.lng();
+
+      map.setCenter(lat, lng);
+    });
+
+    $(document).ready(function(){
+      //prettyPrint();
+      map = new GMaps({
+        div: '#map',
+        lat: 8.2751522,
+        lng: 98.0984147
+      });
+
+      map.on('marker_added', function (marker) {
+        var index = map.markers.indexOf(marker);
+        console.log(marker)
+        $('#results').append('<li><a href="#" class="pan-to-marker" data-marker-index="' + index + '">' + marker.title + '</a>' + ' ('+ marker.pengisi + ')<a href="http://localhost:3000/events/' + marker.id + '">' + 'Selengkapnya..' + '</a>' +'</li>');
+
+        if (index == map.markers.length - 1) {
+          map.fitZoom();
+        }
+      });
+
+      var xhr = $.getJSON('http://localhost:3000/home/get_json_event/' + window.location.search);
+      xhr.done(printResults);
+      xhr.done(loadResults);
+    });
 </script>
