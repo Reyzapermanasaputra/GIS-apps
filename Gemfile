@@ -10,8 +10,8 @@ end
 gem 'rails', '~> 5.1.4'
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3'
-#gem mysql
-gem 'mysql2'
+#gem pg
+gem 'pg', '~> 0.18'
 #gem bootsrap
 gem 'bootstrap', '4.0.0.alpha3'
 #gem for maps

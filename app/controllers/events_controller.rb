@@ -20,8 +20,8 @@ class EventsController < ApplicationController
 
   def show
   	@event = Event.find_by_id(params[:id])
-    @gmap = GMaps.new(div: '#map', lat: @event.latitude, lng: @event.longitude, zoom: 20)    
-    @gmap.addMarker(
+    @map = GMaps.new(div: '#map', lat: @event.latitude, lng: @event.longitude, zoom: 20)    
+    @map.addMarker(
      lat: @event.latitude,
      lng: @event.longitude,
      title: 'Marker with InfoWindow',
@@ -41,6 +41,9 @@ class EventsController < ApplicationController
   end
 
   def destroy
+  end
+
+  def route_map
   end
 
   private

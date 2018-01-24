@@ -124,7 +124,7 @@
       map.on('marker_added', function (marker) {
         var index = map.markers.indexOf(marker);
         console.log(marker)
-        $('#results').append('<li><a href="#" class="pan-to-marker" data-marker-index="' + index + '">' + marker.title + '</a>' + ' ('+ marker.pengisi + ')<a href="http://localhost:3000/events/' + marker.id + '">' + 'Selengkapnya..' + '</a>' +'</li>');
+        $('#results').append('<li><a href="#" class="pan-to-marker" data-marker-index="' + index + '">' + marker.title + '</a>' + ' ('+ marker.pengisi + ')<a href="http://localhost:3000/events/' + marker.id + '">' + ' Selengkapnya..' + '</a>' +'</li>');
 
         if (index == map.markers.length - 1) {
           map.fitZoom();
