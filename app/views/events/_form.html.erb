@@ -1,4 +1,5 @@
   <%= form_for @event do |f| %>
+    <%= f.hidden_field :user_id, value: current_user.id%>
     <div class="row">
       <div class="col-lg-6">
         <fieldset class="form-group">
@@ -18,18 +19,18 @@
 
         <fieldset class="form-group">
           <%= f.label :tanggal %>
-          <%= f.text_field :tanggal, class: "form-control" %>
+          <%= f.date_field :tanggal, class: "form-control" %>
         </fieldset>
         <div class="col-lg-6">
           <fieldset class="form-group">
             <%= f.label "Mulai Jam", :jam_mulai %>
-            <%= f.text_field :jam_mulai, class: "form-control" %>
+            <%= f.time_field :jam_mulai, class: "form-control" %>
           </fieldset>
         </div>
         <div class="col-lg-6">
           <fieldset class="form-group">
             <%= f.label "Selesai Jam", :jam_selesai %>
-            <%= f.text_field :jam_selesai, class: "form-control" %>
+            <%= f.time_field :jam_selesai, class: "form-control" %>
           </fieldset>
         </div>
       </div>

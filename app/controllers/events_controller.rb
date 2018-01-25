@@ -1,7 +1,8 @@
 class EventsController < ApplicationController
+  before_action :check_current_user, only: [:index, :new, :create, :edit, :update, :destroy]
 
   def index
-    @events = Event.order('created_at DESC')
+    @events = User.find_by_id(current_user.id).events
   end
 
   def new
@@ -49,6 +50,6 @@ class EventsController < ApplicationController
   private
 
   def event_params
-    params.require(:event).permit(:judul_kajian, :pengisi, :hari, :tanggal, :jam_mulai, :jam_selesai, :lokasi, :kota, :cp, :cp_no_telpon, :latitude, :longtitude)
+    params.require(:event).permit(:judul_kajian, :pengisi, :hari, :tanggal, :jam_mulai, :jam_selesai, :lokasi, :kota, :cp, :cp_no_telpon, :latitude, :longitude, :user_id)
   end
 end

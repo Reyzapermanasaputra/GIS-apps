@@ -19,7 +19,7 @@
 </div>
 
   <div class="form-group">
-    <label for="textinput" class="col-lg-2 control-label">Waktu</label>
+    <label for="textinput" class="col-lg-2 control-label">Hari</label>
     <div class="col-lg-10">
       <%= text_field_tag :hari, params[:hari], placeholder: "Search Hari", class: "form-control"%>
       <p class="help-block"></p>
@@ -27,9 +27,9 @@
   </div>
 
   <div class="form-group">
-    <label for="textinput" class="col-lg-2 control-label">Waktu</label>
+    <label for="textinput" class="col-lg-2 control-label">Tanggal</label>
     <div class="col-lg-10">
-      <%= text_field_tag :tanggal, params[:tanggal], placeholder: "Search Tanggal", class: "form-control"%>
+      <%= date_field_tag :tanggal, params[:tanggal], placeholder: "Search Tanggal", class: "form-control"%>
       <p class="help-block"></p>
     </div>
   </div>
@@ -81,9 +81,10 @@
               lng : item.longitude,
               title : item.judul_kajian,
               pengisi: item.pengisi,
+              tanggal: item.tanggal,
               id: item.id,
               infoWindow: {
-                content: "<p>"+item.judul_kajian+"<br />" +item.pengisi+"</p>"
+                content: "<p>"+item.judul_kajian+"<br />" +item.pengisi+ "<br/>" +item.tanggal+ "</p>"
               }
             });
           }
@@ -124,7 +125,7 @@
       map.on('marker_added', function (marker) {
         var index = map.markers.indexOf(marker);
         console.log(marker)
-        $('#results').append('<li><a href="#" class="pan-to-marker" data-marker-index="' + index + '">' + marker.title + '</a>' + ' ('+ marker.pengisi + ')<a href="http://localhost:3000/events/' + marker.id + '">' + ' Selengkapnya..' + '</a>' +'</li>');
+        $('#results').append('<li><a href="#" class="pan-to-marker" data-marker-index="' + index + '">' + marker.title + '</a>' + ' ('+ marker.pengisi + ' ' + marker.tanggal + ')<a href="http://localhost:3000/events/' + marker.id + '">' + ' Selengkapnya..' + '</a>' +'</li>');
 
         if (index == map.markers.length - 1) {
           map.fitZoom();

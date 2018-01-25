@@ -21,19 +21,19 @@
        <div class="container">   
          <div class="navbar-header">   
             <a class="navbar-brand" href="http://localhost:3000/">Kajian Cloud</a>   
-         </div>   
-         <ul class="nav navbar-nav">    
-            <li><%= link_to "All Kajian", "http://localhost:3000/events" %></li>  
-            <li><%= link_to "Tambah Kajian", "http://localhost:3000/events/new" %></li>  
-         </ul>   
+         </div>    
          <ul class="nav navbar-nav navbar-right">   
-            <% if true %>   
-            <li><%= link_to "#" %></li>   
-            <li><%= link_to "Log Out" , "#"%></li>   
-            <% else %>   
-            <li><%= link_to "Sign In", "#" %></li>   
-            <li><%= link_to "Register", "#" %></li>   
-            <% end %>   
+            <% if current_user %>
+              <ul class="nav navbar-nav">    
+                <li><%= link_to "All Kajian", "http://localhost:3000/events" %></li>  
+                <li><%= link_to "Tambah Kajian", "http://localhost:3000/events/new" %></li>  
+                <li><%= link_to current_user.username, "#" %></li> 
+              </ul>  
+              <li><%= link_to 'Log-Out', session_path(current_user.id), method: "DELETE" %></li>   
+            <% else %>
+            <li><%= link_to 'Log-in', new_session_path %></li>
+            <li><%= link_to "Register", "http://localhost:3000/sign_up" %></li>   
+            <% end %>
          </ul>   
        </div>   
     </div>   
